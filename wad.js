@@ -4,6 +4,8 @@ var Wad = (function(){
 /** Let's do the vendor-prefix dance. **/
     var audioContext = window.AudioContext || window.webkitAudioContext;
     var context = new audioContext();
+    //MAKING A TUNA. FOR THE FX
+    var tuna = new Tuna(context);
     navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia || navigator.getUserMedia
 /////////////////////////////////////////
 
