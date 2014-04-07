@@ -269,6 +269,12 @@ Check out http://www.voxengo.com/impulses/ for free impulse responses. **/
         constructVibrato(this, arg)
         constructTremolo(this, arg)
         constructReverb(this, arg)
+        constructChorus(this, arg);
+        constructDelay(this, arg);
+        constructPhaser(this, arg);
+        constructOverdrive(this, arg);
+        constructWah(this, arg);
+
 
         if ('panning' in arg){
             this.panning = {
@@ -325,10 +331,14 @@ as specified by the volume envelope and filter envelope **/
 with special handling for reverb (ConvolverNode). **/
     var plugEmIn = function(that){
         for (var i=1; i<that.nodes.length; i++){
-            that.nodes[i-1].connect(that.nodes[i])
-            if(that.nodes[i] instanceof ConvolverNode){
-                that.nodes[i-1].connect(that.nodes[i+2])
-            }
+        		if(that.nodes[i].input){
+        			that.nodes[i-1].connect(that.nodes[i].input)
+        		} else {
+		            that.nodes[i-1].connect(that.nodes[i])
+		            if(that.nodes[i] instanceof ConvolverNode){
+		                that.nodes[i-1].connect(that.nodes[i+2])
+		            }
+	          }
         }
 
         that.nodes[that.nodes.length-1].connect(that.destination)
@@ -551,7 +561,13 @@ then finally play the sound by calling playEnv() **/
     /**  sets panning based on the play() argument if present, or defaults to the constructor argument if panning is not set on play **/
             setUpPanningOnPlay(this, arg)
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+				    
+// setting up Tuna fx
+				    setUpChorusOnPlay(this, arg);
+				    setUpDelayOnPlay(this, arg);
+				    setUpPhaserOnPlay(this, arg);
+				    setUpOverdriveOnPlay(this, arg);
+				    setUpWahOnPlay(this, arg);
 
             plugEmIn(this) 
 
