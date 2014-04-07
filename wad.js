@@ -147,6 +147,70 @@ Check out http://www.voxengo.com/impulses/ for free impulse responses. **/
             request.send();
         }
     }
+
+
+    var constructChorus  = function(that, arg){
+        if (arg.chorus){
+            that.chorus = {
+                rate : arg.chorus.rate || 1.5,
+                feedback : arg.chorus.feedback || 0.2,
+                delay : arg.chorus.delay || 0.0045,
+                bypass : arg.chorus.bypass || 0
+            };
+        }
+    };
+
+    var constructDelay  = function(that, arg){
+        if (arg.delay){
+            that.delay = {
+                feedback : arg.delay.feedback || 0.45,
+                delayTime : arg.delay.delayTime || 150,
+                wetLevel : arg.delay.wetLevel || 0.25,
+                dryLevel : arg.delay.dryLevel || 1,
+                cutoff : arg.delay.cutoff || 20,
+                bypass : arg.delay.bypass || 0
+            };
+        }
+    };
+
+    var constructPhaser  = function(that, arg){
+        if (arg.phaser){
+            that.phaser = {
+                rate : arg.phaser.rate || 1.2,
+                feedback : arg.phaser.feedback || 0,
+                depth : arg.phaser.depth || 0,
+                stereoPhase : arg.phaser.stereoPhase || 30,
+                bassModulationFrequency : arg.phaser.bassModulationFrequency || 700,
+                bypass : arg.phaser.bypass || 0
+            };
+        }
+    };
+
+    var constructOverdrive  = function(that, arg){
+        if (arg.overdrive){
+            that.overdrive = {
+                outputGain : arg.overdrive.outputGain || 1.5,
+                drive : arg.overdrive.drive || 0.2,
+                curveAmount : arg.overdrive.curveAmount || 0.0045,
+                algorithmIndex : arg.overdrive.algorithmIndex || 0,
+                bypass : arg.overdrive.bypass || 0
+            };
+        }
+    };
+
+    var constructWah  = function(that, arg){
+        if (arg.wah){
+            that.wah= {
+                automode : arg.wah.automode || 1.5,
+                baseFrequency : arg.wah.baseFrequency || 0.2,
+                excursionOctaves : arg.wah.excursionOctaves || 0.0045,
+                sweep : arg.wah.sweep || 0,
+                resonance : arg.wah.resonance || 0.0045,
+                sensitivity : arg.wah.sensitivity || 0,
+                bypass : arg.wah.bypass || 0
+            };
+        }
+    };
 //////////////////////////////////////////////////////////////////////////////
 
 
@@ -402,6 +466,28 @@ with special handling for reverb (ConvolverNode). **/
             destination : that.gain.gain
         })
         that.tremolo.wad.play()
+    }
+
+    var setUpChorusOnPlay = function(that, arg){
+			var chorus = new tuna.Chorus(that.chorus);
+			that.nodes.push(chorus);
+    }
+
+    var setUpDelayOnPlay = function(that, arg){
+			var delay = new tuna.Delay(that.delay);    	
+			that.nodes.push(delay);
+    }
+    var setUpPhaserOnPlay = function(that, arg){
+			var phaser = new tuna.Phaser(that.phaser);    	
+			that.nodes.push(phaser);
+    }
+    var setUpOverdriveOnPlay = function(that, arg){
+			var overdrive = new tuna.Overdrive(that.overdrive);    	
+			that.nodes.push(overdrive);
+    }
+    var setUpWahOnPlay = function(that, arg){
+			var wah = new tuna.WahWah(that.wah);    	
+			that.nodes.push(wah);
     }
 ///////////////////////////////////////////////////////////////
 
